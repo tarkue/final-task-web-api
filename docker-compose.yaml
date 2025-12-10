@@ -1,0 +1,29 @@
+services:
+  fastapi: 
+    build: .
+    restart: always
+    env_file: .env
+    networks:
+      - nats_net
+      - default
+    ports:
+      - "${APP_PORT}:${APP_PORT}"
+    depends_on:
+      - nats
+
+  nats:
+    image: nats
+    ports: 
+      - "${NATS_PORT}:4222"
+    networks:
+      - nats_net
+      - default
+    volumes:
+       - ./config/:/etc/nats
+
+networks:
+  nats_net:
+    driver: bridge
+    internal: true 
+  default:          # стандартная сеть (есть интернет)
+    driver: bridge
