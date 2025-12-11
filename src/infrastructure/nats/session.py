@@ -22,7 +22,17 @@ class AsyncNatsSession(Client):
         self, 
         message_handler: Callable[[str], Coroutine] = None
     ): 
-        self.__client = await nats.connect(env.nats.url)
+        connect_kwargs = {
+            "servers": env.nats.url
+        }
+
+        if env.nats.user:
+            connect_kwargs["user"] = env.nats.user
+
+        if env.nats.password:
+            connect_kwargs["password"] = env.nats.password
+
+        self.__client = await nats.connect(**connect_kwargs)
         if message_handler is not None:
             await self.__client.subscribe(
                 CHANNEL, 

@@ -31,7 +31,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[dict]:
     scheduler.add_job(
         lambda: asyncio.run(background_task(items_service)),
         'interval',
-        minutes=env.background_task.interval_in_minutes
+        seconds=env.background_task.interval_in_minutes
     )
     scheduler.start()
     

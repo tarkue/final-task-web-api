@@ -1,4 +1,6 @@
 
+from typing import Optional
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from ._default import CONFIG_DEFAULT
@@ -9,6 +11,8 @@ class Nats(BaseSettings):
 
     host: str
     port: int
+    user: Optional[str] = None
+    password: Optional[str] = None
     
     @property
     def url(self):

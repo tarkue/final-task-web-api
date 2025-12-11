@@ -38,8 +38,8 @@ class ItemService(ItemServicePort):
         self.__real_time_service.unsubscribe(subscriber)
 
     async def background_task(self):
-            items = await self.__external.get_external_item()
-            result = await self.__repository.create(items)
+            item = await self.__external.get_external_item()
+            result = await self.__repository.create(item)
 
             if self.__real_time_service:
                 await self.__real_time_service.publish(

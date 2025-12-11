@@ -3,6 +3,11 @@ services:
     build: .
     restart: always
     env_file: .env
+    environment:
+      NATS_HOST: nats
+      NATS_PORT: 4222
+      NATS_USER: nats_user
+      NATS_PASSWORD: nats_password
     networks:
       - nats_net
       - default
@@ -13,11 +18,11 @@ services:
 
   nats:
     image: nats
+    command: ["-c", "/etc/nats/nats-server.conf"]
     ports: 
-      - "${NATS_PORT}:4222"
+      - "4222:4222"
     networks:
       - nats_net
-      - default
     volumes:
        - ./config/:/etc/nats
 
